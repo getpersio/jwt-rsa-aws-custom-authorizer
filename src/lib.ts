@@ -1,10 +1,11 @@
 require('dotenv').config({ silent: true });
 
-const jwksClient = require('jwks-rsa');
-const jwt = require('jsonwebtoken');
-const util = require('util');
+import jwksClient from 'jwks-rsa';
+import { decode, verify } from 'jsonwebtoken';
+import { promisify } from 'util';
+import { APIGatewayProxyEvent } from 'aws-lambda';
 
-const getPolicyDocument = (effect, resource) => {
+const getPolicyDocument = (effect: any, resource: any) => {
     const policyDocument = {
         Version: '2012-10-17', // default version
         Statement: [{
@@ -18,7 +19,7 @@ const getPolicyDocument = (effect, resource) => {
 
 
 // extract and return the Bearer Token from the Lambda event parameters
-const getToken = (params) => {
+const getToken = (params: any) => {
     if (!params.type || params.type !== 'TOKEN') {
         throw new Error('Expected "event.type" parameter to have value "TOKEN"');
     }
@@ -40,31 +41,31 @@ const jwtOptions = {
     issuer: process.env.TOKEN_ISSUER
 };
 
-module.exports.authenticate = (params) => {
+export async function authenticate(params: any) {
     console.log(params);
     const token = getToken(params);
 
-    const decoded = jwt.decode(token, { complete: true });
+    const decoded = decode(token, { complete: true });
     if (!decoded || !decoded.header || !decoded.header.kid) {
         throw new Error('invalid token');
     }
 
-    const getSigningKey = util.promisify(client.getSigningKey);
-    return getSigningKey(decoded.header.kid)
-        .then((key) => {
-            const signingKey = key.publicKey || key.rsaPublicKey;
-            return jwt.verify(token, signingKey, jwtOptions);
-        })
-        .then((decoded)=> ({
-            principalId: decoded.sub,
-            policyDocument: getPolicyDocument('Allow', params.methodArn),
-            context: { scope: decoded.scope }
-        }));
+    const getSigningKey = promisify(client.getSigningKey);
+    const key = await getSigningKey(decoded.header.kid);
+    const signingKey = key.getublicKey || key.rsaPublicKey;
+    const decoded_1 = verify(token, signingKey, jwtOptions);
+    return ({
+        principalId: decoded_1.sub,
+        policyDocument: getPolicyDocument('Allow', params.methodArn),
+        context: { scope: decoded_1.scope }
+    });
 }
 
- const client = jwksClient({
-        cache: true,
-        rateLimit: true,
-        jwksRequestsPerMinute: 10, // Default value
-        jwksUri: process.env.JWKS_URI
-  });
+const client = jwksClient({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 10, // Default value
+    jwksUri: process.env.JWKS_URI || 'undifined'
+});
+
+export default authenticate;

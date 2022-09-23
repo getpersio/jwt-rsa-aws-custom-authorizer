@@ -2,23 +2,29 @@
   "name": "lambda-auth0-authenticator",
   "version": "0.1.0",
   "description": "An AWS Lambda function to provide a Custom Authenticator for AWS API Gateway that verifies RS* signed tokens",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "lambda-local --timeout 300 --lambda-path index.js --event-path event.json",
-    "bundle": "rm -f custom-authorizer.zip ; zip custom-authorizer.zip -r *.js *.json node_modules/"
+    "test": "yarn build && lambda-local --timeout 300 --lambda-path dist/index.js --event-path event.json",
+    "bundle": "rm -f custom-authorizer.zip ; zip custom-authorizer.zip -r *.js *.json node_modules/",
+    "build": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
+    "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "author": "Jason Haines",
   "license": "Apache-2.0",
   "dependencies": {
-    "auth0": "^2.5.0",
-    "bluebird": "^3.4.6",
-    "dotenv": "^5.0.1",
-    "jsonwebtoken": "^8.2.1",
-    "jwks-rsa": "^1.1.1"
+    "auth0": "^2.42.0",
+    "dotenv": "^16.0.2",
+    "esbuild": "^0.15.9",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^2.1.4"
   },
   "devDependencies": {
-    "aws-sdk": "^2.2.48",
-    "lambda-local": "^1.4.8"
+    "@types/auth0": "^2.35.3",
+    "@types/aws-lambda": "^8.10.104",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/node": "^18.7.18",
+    "aws-sdk": "^2.1222.0",
+    "lambda-local": "^2.0.3"
   },
   "repository": {
     "type": "git",
