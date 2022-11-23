@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/auth0": "^2.35.3",
-    "@types/aws-lambda": "^8.10.104",
+    "@types/aws-lambda": "^8.10.109",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "^18.7.18",
     "aws-sdk": "^2.1222.0",
