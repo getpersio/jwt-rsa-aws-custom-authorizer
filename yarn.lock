@@ -210,10 +210,10 @@ aws-sdk@^2.1222.0:
     uuid "8.0.0"
     xml2js "0.4.19"
 
-aws-xray-sdk-core@^3.3.7:
-  version "3.3.7"
-  resolved "https://registry.yarnpkg.com/aws-xray-sdk-core/-/aws-xray-sdk-core-3.3.7.tgz#198285081bc88f86e13988aec5591c6cc0babc91"
-  integrity sha512-ool4XhHZ+13qvxx8pQ9KTMFJbFizQbhbKNurEwdpEEI63/uuYPBn3ZjyNI+sVD0CjaGCjb7L8tFj6+WDHYdeFA==
+aws-xray-sdk-core@^3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/aws-xray-sdk-core/-/aws-xray-sdk-core-3.4.1.tgz#25592b7e4ed3ebd25ece9c1f258d3f68558e1ab6"
+  integrity sha512-HPQ+9GMF+yhDDXNKPp6HGAIv2yVapKTI7WRs2aN3TT+RxQkbmgO+3JlcMvRL2/lu0RqTVWoYCIhmF9/H/zRL1A==
   dependencies:
     "@aws-sdk/service-error-classification" "^3.4.1"
     "@aws-sdk/types" "^3.4.1"
